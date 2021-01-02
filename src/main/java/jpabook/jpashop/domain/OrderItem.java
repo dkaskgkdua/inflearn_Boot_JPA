@@ -1,7 +1,9 @@
 package jpabook.jpashop.domain;
 
 import jpabook.jpashop.domain.item.Item;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,7 +11,10 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+// 다른 곳에서 new 로 생성하지 말란 뜻
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
+
     @Id
     @GeneratedValue
     @Column(name = "order_item_id")
