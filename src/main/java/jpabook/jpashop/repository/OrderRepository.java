@@ -119,5 +119,22 @@ public class OrderRepository {
         ).getResultList();
     }
 
-
+    /**
+     * 1 : 다 는 페이징 처리시 경고가 나옴
+     * 메모리 영역에서 페이징 처리를 한다는 것...
+     * (쿼리에서 처리 안함)
+     * 로우 수가 1만개이면 그 1만개를 메모리영역에서 함
+     * -> 성능 이슈...
+     * 컬렉션 패치 조인은 1개만 사용 가능함
+     * -> 둘 이상의 컬렉션 패치 조인을 사용하면 안됨(데이터 부정합)
+     */
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                "select distinct o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d" +
+                        " join fetch o.orderItems oi" +
+                        " join fetch oi.item i", Order.class)
+                .getResultList();
+    }
 }
