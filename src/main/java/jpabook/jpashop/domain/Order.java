@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -40,6 +41,7 @@ public class Order {
      * 내장 컬렉션으로 변경한다. 만약 임의의 메서드에서 잘못 생성하면
      * 문제가 발생할 수 있다.
      */
+    @BatchSize(size = 1000) // 컬렉션인 경우 default_batch 가 아닌 커스텀 사이즈 조정 시 사용. 서아주눈 1000개max
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
